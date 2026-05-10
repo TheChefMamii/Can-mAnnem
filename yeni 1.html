@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canım Anneme</title>
+    <style>
+        body { background: #fff5f7; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; text-align: center; cursor: pointer; }
+        #final-message { position: absolute; opacity: 0; transform: scale(0.5); transition: all 1s ease-out; color: #d63384; z-index: 10; }
+        h1 { font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        .heart { font-size: 150px; color: #d63384; animation: swell 3s ease-in-out forwards; position: relative; }
+        @keyframes swell { 
+            0% { transform: scale(1); opacity: 1; } 
+            80% { transform: scale(5); opacity: 0.8; } 
+            95% { transform: scale(6); opacity: 0; } 
+            100% { transform: scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart" id="big-heart">❤️</div>
+    
+    <div id="final-message">
+        <h1>Anneler Günün Kutlu Olsun Annecim!</h1>
+        <p>- Mami ❤️</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+    <script>
+        const jsConfetti = new JSConfetti();
+        const heart = document.getElementById('big-heart');
+        const message = document.getElementById('final-message');
+
+        // Kalp şişme animasyonu bittiğinde tetiklenir
+        heart.addEventListener('animationend', () => {
+            heart.style.display = 'none'; // Kalbi kaldır
+            
+            // Konfeti patlat (farklı renkler ve şekillerle)
+            jsConfetti.addConfetti({
+                emojis: ['⚡️', '❤️', '🌸', '✨', '🎈'],
+                emojiSize: 30,
+                confettiNumber: 100,
+            });
+            jsConfetti.addConfetti({
+                confettiColors: ['#ffb6c1', '#d63384', '#fff', '#ffd700'],
+                confettiNumber: 300,
+            });
+
+            // Mesajı göster ve şişir
+            message.style.opacity = '1';
+            message.style.transform = 'scale(1)';
+        });
+
+        // Sayfaya tıklayınca animasyonu tekrarla (test için)
+        document.body.addEventListener('click', () => {
+            location.reload();
+        });
+    </script>
+</body>
+</html>
