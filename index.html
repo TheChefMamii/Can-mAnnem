@@ -1,104 +1,259 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canım Anneme</title>
-    <style>
-        body, html { margin: 0; padding: 0; background: #fff5f7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; text-align: center; }
-        
-        /* Ana Kapsayıcı: Sonsuz Yükseklik İçin */
-        #main-scroll-container { display: flex; flex-direction: column; align-items: center; min-height: 100vh; position: relative; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Canım Anneme ❤️</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&display=swap');
 
-        /* Başlangıç Bölümü: Patlayan Kalp */
-        .section-initial { height: 100vh; display: flex; align-items: center; justify-content: center; position: sticky; top: 0; z-index: 5; }
-        .heart { font-size: 150px; color: #d63384; animation: swell 3s ease-in-out forwards; }
-        #initial-message { position: absolute; opacity: 0; color: #d63384; z-index: 10; transform: scale(0.5); transition: all 1s ease-out; }
-        h1 { font-size: 2.3em; margin-bottom: 0.2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-        h2 { font-size: 1.5em; color: #555; }
+  * { margin:0; padding:0; box-sizing:border-box; }
 
-        /* Sonsuz Akış Bölümü: N'ler ve Mesaj */
-        .infinite-flow { width: 100%; padding-top: 10vh; display: flex; flex-direction: column; align-items: center; }
-        
-        /* Zigzag N Harfleri */
-        .n-zigzag-container { position: relative; width: 100%; height: 200px; /* Her bir N bloğunun yüksekliği */ display: flex; justify-content: center; overflow: hidden; }
-        .letter-n { font-size: 80px; font-weight: bold; color: #ffd700; /* Altın Rengi */ position: absolute; animation: zigzag 4s linear infiniteAlternate; }
-        
-        /* Final Mesajı */
-        .love-message { font-size: 2.8em; font-weight: bold; color: #d63384; margin-top: 50px; margin-bottom: 50px; animation: glow 2s ease-in-out infinite alternate; }
+  html, body {
+    width:100%;
+    background:#fff5f7;
+    font-family:'Nunito', sans-serif;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling: touch;
+  }
 
-        /* Animasyonlar */
-        @keyframes swell { 0% { transform: scale(1); opacity: 1; } 80% { transform: scale(5); opacity: 0.8; } 95% { transform: scale(6); opacity: 0; } 100% { transform: scale(0); opacity: 0; } }
-        @keyframes glow { from { text-shadow: 0 0 10px #ffb6c1, 0 0 20px #ffb6c1; } to { text-shadow: 0 0 20px #d63384, 0 0 30px #d63384; } }
-        
-        /* Dikey Zigzag: Sağa Sola Kayarken Aşağı İnme */
-        @keyframes zigzag { 0% { transform: translateX(-40vw); opacity: 1; } 25% { transform: translateX(40vw); opacity: 0.7; } 50% { transform: translateX(-40vw); opacity: 0.9; } 75% { transform: translateX(40vw); opacity: 0.7; } 100% { transform: translateX(-40vw); opacity: 1; } }
+  /* ── PHASE 1: kalp ── */
+  #phase1 {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    width:100%;
+  }
 
-    </style>
+  .heart {
+    font-size:120px;
+    animation: swell 3s ease-in-out forwards;
+    will-change: transform, opacity;
+  }
+
+  @keyframes swell {
+    0%   { transform:scale(1);  opacity:1; }
+    80%  { transform:scale(5);  opacity:0.8; }
+    95%  { transform:scale(6);  opacity:0; }
+    100% { transform:scale(0);  opacity:0; }
+  }
+
+  /* ── PHASE 2: mesaj + dikey yazı ── */
+  #phase2 {
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    width:100%;
+  }
+
+  /* sabit başlık */
+  #header {
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:#fff5f7;
+    width:100%;
+    text-align:center;
+    padding:28px 20px 16px;
+    border-bottom:1px solid #ffd6e7;
+  }
+
+  #header h1 {
+    font-family:'Dancing Script', cursive;
+    font-size:1.7em;
+    color:#d63384;
+    text-shadow:1px 2px 6px rgba(214,51,132,0.15);
+    line-height:1.3;
+  }
+
+  #header p {
+    margin-top:6px;
+    font-size:0.95em;
+    color:#e8679a;
+  }
+
+  /* dikey harf listesi */
+  #vertical-love {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding: 24px 0 80px;
+    gap:2px;
+    width:100%;
+  }
+
+  #vertical-love span {
+    display:block;
+    font-family:'Dancing Script', cursive;
+    font-size:2.4em;
+    color:#d63384;
+    line-height:1.3;
+    opacity:0;
+    transform:translateX(-30px);
+    animation: slideIn 0.4s ease forwards;
+  }
+
+  #vertical-love span.space-char {
+    height:0.4em;
+  }
+
+  @keyframes slideIn {
+    to { opacity:1; transform:translateX(0); }
+  }
+
+  /* m harfleri */
+  #m-zone {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+  }
+
+  #m-zone span {
+    display:block;
+    font-family:'Dancing Script', cursive;
+    font-size:2.4em;
+    color:#d63384;
+    line-height:1.3;
+  }
+
+  /* scroll hint */
+  #scroll-hint {
+    position:fixed;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#e8a0be;
+    font-size:0.8em;
+    letter-spacing:1px;
+    animation:bounceY 1.5s infinite;
+    pointer-events:none;
+    z-index:20;
+    white-space:nowrap;
+  }
+
+  @keyframes bounceY {
+    0%,100% { transform:translateX(-50%) translateY(0); }
+    50%      { transform:translateX(-50%) translateY(7px); }
+  }
+
+  #scroll-hint.hidden { opacity:0; transition:opacity 0.5s; }
+</style>
 </head>
 <body>
 
-    <div id="main-scroll-container">
-        <div class="section-initial">
-            <div class="heart" id="big-heart">❤️</div>
-            <div id="initial-message">
-                <h1>Anneler Günün Kutlu Olsun!</h1>
-                <h2>Canım Annem</h2>
-            </div>
-        </div>
+<!-- PHASE 1 -->
+<div id="phase1">
+  <div class="heart">❤️</div>
+</div>
 
-        <div class="infinite-flow" id="flow-container">
-            </div>
-    </div>
+<!-- PHASE 2 -->
+<div id="phase2">
 
-    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
-    <script>
-        const jsConfetti = new JSConfetti();
-        const heart = document.getElementById('big-heart');
-        const message = document.getElementById('initial-message');
-        const flowContainer = document.getElementById('flow-container');
+  <div id="header">
+    <h1>Anneler Günün Kutlu Olsun Annecim!</h1>
+    <p>— Mami ❤️</p>
+  </div>
 
-        // Kalp patlayınca konfeti ve başlığı göster
-        heart.addEventListener('animationend', () => {
-            heart.style.display = 'none';
-            jsConfetti.addConfetti({ emojis: ['❤️', '🌸', '✨', '🎈'], emojiSize: 30, confettiNumber: 150 });
-            jsConfetti.addConfetti({ confettiColors: ['#ffb6c1', '#d63384', '#fff'], confettiNumber: 300 });
-            
-            message.style.opacity = '1';
-            message.style.transform = 'scale(1)';
-        });
+  <div id="vertical-love">
+    <!-- s e n i _ ç o k _ s e v i y o r u -->
+  </div>
 
-        // SONSUNZ KAYDIRMA FONKSİYONU
-        let sectionCount = 0;
-        function createInfiniteContent() {
-            for (let i = 0; i < 5; i++) { // Her seferinde 5 blok ekle
-                // 1. N'leri ekle
-                const nContainer = document.createElement('div');
-                nContainer.className = 'n-zigzag-container';
-                const letterN = document.createElement('div');
-                letterN.className = 'letter-n';
-                letterN.innerText = 'N';
-                nContainer.appendChild(letterN);
-                flowContainer.appendChild(nContainer);
+  <div id="scroll-hint">↓ kaydır ↓</div>
 
-                // 2. Mesajı ekle (Hafif bir boşluktan sonra)
-                const loveMessage = document.createElement('div');
-                loveMessage.className = 'love-message';
-                loveMessage.innerText = 'SENİ ÇOK SEVİYORUMMM';
-                flowContainer.appendChild(loveMessage);
-            }
-        }
+</div>
 
-        // Başlangıçta içerik yükle
-        createInfiniteContent();
+<script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+<script>
+const jsConfetti = new JSConfetti();
+const heartEl   = document.querySelector('.heart');
+const phase1    = document.getElementById('phase1');
+const phase2    = document.getElementById('phase2');
+const vLove     = document.getElementById('vertical-love');
+const hint      = document.getElementById('scroll-hint');
 
-        // Kaydırma (Scroll) Kontrolü
-        window.addEventListener('scroll', () => {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
-                // Ekranın altına 500px kalınca yeni içerik ekle
-                createInfiniteContent();
-            }
-        });
-    </script>
+// "seni çok seviyoru" harfleri (boşluklar dahil)
+const prefix = ['s','e','n','i',' ','ç','o','k',' ','s','e','v','i','y','o','r','u'];
+
+function buildPrefix() {
+  prefix.forEach((ch, i) => {
+    const s = document.createElement('span');
+    if (ch === ' ') {
+      s.classList.add('space-char');
+      s.textContent = '\u00A0';
+    } else {
+      s.textContent = ch;
+    }
+    s.style.animationDelay = (i * 60) + 'ms';
+    vLove.appendChild(s);
+  });
+
+  // m zone
+  const mZone = document.createElement('div');
+  mZone.id = 'mZone';
+  mZone.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:2px;';
+  vLove.appendChild(mZone);
+  addM(mZone); // ilk m
+}
+
+function addM(zone) {
+  const s = document.createElement('span');
+  s.textContent = 'm';
+  s.style.cssText = `
+    display:block;
+    font-family:'Dancing Script',cursive;
+    font-size:2.4em;
+    color:#d63384;
+    line-height:1.3;
+    opacity:0;
+    transform:translateY(-10px);
+    transition:opacity 0.3s,transform 0.3s;
+  `;
+  zone.appendChild(s);
+  requestAnimationFrame(() => {
+    s.style.opacity = '1';
+    s.style.transform = 'translateY(0)';
+  });
+}
+
+heartEl.addEventListener('animationend', () => {
+  phase1.style.display = 'none';
+  phase2.style.display = 'flex';
+
+  jsConfetti.addConfetti({
+    emojis:['❤️','🌸','✨','🎈'],
+    emojiSize:28,
+    confettiNumber:80,
+  });
+  jsConfetti.addConfetti({
+    confettiColors:['#ffb6c1','#d63384','#fff','#ffd700'],
+    confettiNumber:250,
+  });
+
+  buildPrefix();
+});
+
+let lastMCount = 1;
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  // her 50px'de bir yeni m
+  const count = 1 + Math.floor(scrolled / 50);
+
+  if (count > lastMCount) {
+    const zone = document.getElementById('mZone');
+    if (zone) {
+      const diff = count - lastMCount;
+      for (let i = 0; i < diff; i++) addM(zone);
+      lastMCount = count;
+    }
+  }
+
+  // hint'i gizle
+  if (scrolled > 60) hint.classList.add('hidden');
+  else hint.classList.remove('hidden');
+}, { passive:true });
+</script>
 </body>
 </html>
