@@ -5,56 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canım Anneme</title>
     <style>
-        body { background: #fff5f7; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; text-align: center; cursor: pointer; }
-        #final-message { position: absolute; opacity: 0; transform: scale(0.5); transition: all 1s ease-out; color: #d63384; z-index: 10; }
-        h1 { font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-        .heart { font-size: 150px; color: #d63384; animation: swell 3s ease-in-out forwards; position: relative; }
-        @keyframes swell { 
-            0% { transform: scale(1); opacity: 1; } 
-            80% { transform: scale(5); opacity: 0.8; } 
-            95% { transform: scale(6); opacity: 0; } 
-            100% { transform: scale(0); opacity: 0; }
-        }
+        body, html { margin: 0; padding: 0; background: #fff5f7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; text-align: center; }
+        
+        /* Ana Kapsayıcı: Sonsuz Yükseklik İçin */
+        #main-scroll-container { display: flex; flex-direction: column; align-items: center; min-height: 100vh; position: relative; }
+
+        /* Başlangıç Bölümü: Patlayan Kalp */
+        .section-initial { height: 100vh; display: flex; align-items: center; justify-content: center; position: sticky; top: 0; z-index: 5; }
+        .heart { font-size: 150px; color: #d63384; animation: swell 3s ease-in-out forwards; }
+        #initial-message { position: absolute; opacity: 0; color: #d63384; z-index: 10; transform: scale(0.5); transition: all 1s ease-out; }
+        h1 { font-size: 2.3em; margin-bottom: 0.2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        h2 { font-size: 1.5em; color: #555; }
+
+        /* Sonsuz Akış Bölümü: N'ler ve Mesaj */
+        .infinite-flow { width: 100%; padding-top: 10vh; display: flex; flex-direction: column; align-items: center; }
+        
+        /* Zigzag N Harfleri */
+        .n-zigzag-container { position: relative; width: 100%; height: 200px; /* Her bir N bloğunun yüksekliği */ display: flex; justify-content: center; overflow: hidden; }
+        .letter-n { font-size: 80px; font-weight: bold; color: #ffd700; /* Altın Rengi */ position: absolute; animation: zigzag 4s linear infiniteAlternate; }
+        
+        /* Final Mesajı */
+        .love-message { font-size: 2.8em; font-weight: bold; color: #d63384; margin-top: 50px; margin-bottom: 50px; animation: glow 2s ease-in-out infinite alternate; }
+
+        /* Animasyonlar */
+        @keyframes swell { 0% { transform: scale(1); opacity: 1; } 80% { transform: scale(5); opacity: 0.8; } 95% { transform: scale(6); opacity: 0; } 100% { transform: scale(0); opacity: 0; } }
+        @keyframes glow { from { text-shadow: 0 0 10px #ffb6c1, 0 0 20px #ffb6c1; } to { text-shadow: 0 0 20px #d63384, 0 0 30px #d63384; } }
+        
+        /* Dikey Zigzag: Sağa Sola Kayarken Aşağı İnme */
+        @keyframes zigzag { 0% { transform: translateX(-40vw); opacity: 1; } 25% { transform: translateX(40vw); opacity: 0.7; } 50% { transform: translateX(-40vw); opacity: 0.9; } 75% { transform: translateX(40vw); opacity: 0.7; } 100% { transform: translateX(-40vw); opacity: 1; } }
+
     </style>
 </head>
 <body>
 
-    <div class="heart" id="big-heart">❤️</div>
-    
-    <div id="final-message">
-        <h1>Anneler Günün Kutlu Olsun Annecim!</h1>
-        <p>- Mami ❤️</p>
+    <div id="main-scroll-container">
+        <div class="section-initial">
+            <div class="heart" id="big-heart">❤️</div>
+            <div id="initial-message">
+                <h1>Anneler Günün Kutlu Olsun!</h1>
+                <h2>Canım Annem</h2>
+            </div>
+        </div>
+
+        <div class="infinite-flow" id="flow-container">
+            </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
     <script>
         const jsConfetti = new JSConfetti();
         const heart = document.getElementById('big-heart');
-        const message = document.getElementById('final-message');
+        const message = document.getElementById('initial-message');
+        const flowContainer = document.getElementById('flow-container');
 
-        // Kalp şişme animasyonu bittiğinde tetiklenir
+        // Kalp patlayınca konfeti ve başlığı göster
         heart.addEventListener('animationend', () => {
-            heart.style.display = 'none'; // Kalbi kaldır
+            heart.style.display = 'none';
+            jsConfetti.addConfetti({ emojis: ['❤️', '🌸', '✨', '🎈'], emojiSize: 30, confettiNumber: 150 });
+            jsConfetti.addConfetti({ confettiColors: ['#ffb6c1', '#d63384', '#fff'], confettiNumber: 300 });
             
-            // Konfeti patlat (farklı renkler ve şekillerle)
-            jsConfetti.addConfetti({
-                emojis: ['⚡️', '❤️', '🌸', '✨', '🎈'],
-                emojiSize: 30,
-                confettiNumber: 100,
-            });
-            jsConfetti.addConfetti({
-                confettiColors: ['#ffb6c1', '#d63384', '#fff', '#ffd700'],
-                confettiNumber: 300,
-            });
-
-            // Mesajı göster ve şişir
             message.style.opacity = '1';
             message.style.transform = 'scale(1)';
         });
 
-        // Sayfaya tıklayınca animasyonu tekrarla (test için)
-        document.body.addEventListener('click', () => {
-            location.reload();
+        // SONSUNZ KAYDIRMA FONKSİYONU
+        let sectionCount = 0;
+        function createInfiniteContent() {
+            for (let i = 0; i < 5; i++) { // Her seferinde 5 blok ekle
+                // 1. N'leri ekle
+                const nContainer = document.createElement('div');
+                nContainer.className = 'n-zigzag-container';
+                const letterN = document.createElement('div');
+                letterN.className = 'letter-n';
+                letterN.innerText = 'N';
+                nContainer.appendChild(letterN);
+                flowContainer.appendChild(nContainer);
+
+                // 2. Mesajı ekle (Hafif bir boşluktan sonra)
+                const loveMessage = document.createElement('div');
+                loveMessage.className = 'love-message';
+                loveMessage.innerText = 'SENİ ÇOK SEVİYORUMMM';
+                flowContainer.appendChild(loveMessage);
+            }
+        }
+
+        // Başlangıçta içerik yükle
+        createInfiniteContent();
+
+        // Kaydırma (Scroll) Kontrolü
+        window.addEventListener('scroll', () => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+                // Ekranın altına 500px kalınca yeni içerik ekle
+                createInfiniteContent();
+            }
         });
     </script>
 </body>
